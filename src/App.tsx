@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+import useMsalAuth from "./hooks/useMsalAuth";
+import LoadingSpinner from "./Components/ui/LoadingSpinner/LoadingSpinner";
+import MyRouter from "./routes/router";
+import styles from "./scss_setup/initialSetup.module.scss";
+import {
+  AuthenticatedTemplate,
+  UnauthenticatedTemplate,
+} from "@azure/msal-react";
+import { initializeMsalInstance } from "./utils/msalInstance";
+import { setAxiosAuthInterceptor } from "./api/axiosInstance";
+
+const App = () => {
+  const { loading, accounts } = useMsalAuth(); //use Custom logic to provide accounts and loading state
+
+  useEffect(() => {
+    const initializeMsal = async () => {
+      try {
+        await initializeMsalInstance();
+      } catch (error) {
+        console.error("MSAL initialization error");
+      }
+    };
+
+    initializeMsal();
+
+    if (accounts.length > 0) {
+      setAxiosAuthInterceptor(accounts[0]);
+    }
+  }, [accounts]);
+
+  if (loading) {
+    // return <LoadingSpinner />;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className={styles.initialSetup}>
+      {accounts.length > 0 ? (
+        <AuthenticatedTemplate>
+          <>{/* <MyRouter /> */}</>
+        </AuthenticatedTemplate>
+      ) : (
+        <UnauthenticatedTemplate>
+          {/* <LoadingSpinner /> */}
+        </UnauthenticatedTemplate>
+      )}
+    </div>
+  );
+};
 
-export default App
+export default App;
