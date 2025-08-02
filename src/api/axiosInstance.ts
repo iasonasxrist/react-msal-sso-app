@@ -1,13 +1,13 @@
 import axios from "axios";
-import { store } from "../store";
 import {
   clearMsalToken,
   setError,
   setMsalToken,
-} from "../store/reducers/auth/msalReducer";
+} from "../store/reducers/msalReducer";
 import msalInstance from "../utils/msalInstance";
 import { loginRequest } from "../utils/msalConfig";
-import { InteractionRequiredAuthError } from "@azure/msal-browser";
+import { InteractionRequiredAuthError, type AccountInfo } from "@azure/msal-browser";
+import { store } from "../store";
 
 const axioSign = axios.create({
   baseURL: import.meta.env.VITE_BACKEND,
@@ -20,7 +20,7 @@ const axioSign = axios.create({
   },
 });
 
-export const setAxiosAuthInterceptor = (account) => {
+export const setAxiosAuthInterceptor = (account: AccountInfo) => {
   axioSign.interceptors.request.use(async (config) => {
     const state = store.getState();
     const msalToken = state.msal.msal;

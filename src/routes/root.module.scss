@@ -1,0 +1,50 @@
+@import "../scss_setup/initialSetup.module.scss";
+
+.mainPageContainer {
+  gap: 1em;
+  display: flex;
+  background-color: white;
+  padding: 0 3vw;
+  height: 100%;
+}
+
+.menuContainer {
+  border-radius: 10px;
+  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  background-color: #f6f6f6;
+  margin: 0 1em;
+  padding: 1em;
+}
+.contentContainer {
+  max-inline-size: 100em;
+  width: 100%;
+  background-color: #fcfcfc;
+  padding: 1em;
+  padding: 4.5em 1em 0 1em;
+}
+
+.companyContainer {
+  padding: 3em 0 1em 0;
+  display: flex;
+  align-items: flex-end;
+}
+.menuListUlElement {
+  margin: 2em 0;
+}
+
+.navigationContainer {
+  height: 100%;
+  position: relative;
+}
+
+.initialSetup {
+  height: 100%;
+}
+#root {
+  height: 100%;
+}
+.LogoutButtonContainer {
+  position: absolute;
+  top: 90%;
+}

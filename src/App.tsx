@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import useMsalAuth from "./hooks/useMsalAuth";
 import LoadingSpinner from "./Components/ui/LoadingSpinner/LoadingSpinner";
-import MyRouter from "./routes/router";
 import styles from "./scss_setup/initialSetup.module.scss";
 import {
   AuthenticatedTemplate,
@@ -10,6 +9,7 @@ import {
 } from "@azure/msal-react";
 import { initializeMsalInstance } from "./utils/msalInstance";
 import { setAxiosAuthInterceptor } from "./api/axiosInstance";
+import MyRouter from "./routes/router";
 
 const App = () => {
   const { loading, accounts } = useMsalAuth(); //use Custom logic to provide accounts and loading state
@@ -38,7 +38,7 @@ const App = () => {
     <div className={styles.initialSetup}>
       {accounts.length > 0 ? (
         <AuthenticatedTemplate>
-          <>{/* <MyRouter /> */}</>
+          <><MyRouter /></>
         </AuthenticatedTemplate>
       ) : (
         <UnauthenticatedTemplate>
